@@ -21,6 +21,10 @@
   [template]
   (->MaybeProjection template))
 
+(defn ^:no-doc maybe?
+  [v]
+  (instance? MaybeProjection v))
+
 (defmethod print-method MaybeProjection
   [^MaybeProjection value ^java.io.Writer w]
   (.write w "#<claro/maybe ")
@@ -55,3 +59,7 @@
   (.write w " | ")
   (print-method (.-default-value value) w)
   (.write w ">"))
+
+(defn ^:no-doc default?
+  [v]
+  (instance? DefaultProjection v))

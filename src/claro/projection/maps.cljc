@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [alias])
   (:require [claro.projection.protocols :as pr]
             [claro.projection.value :refer [value?]]
+            [claro.projection.maybe :refer [maybe? default?]]
             [claro.data.ops.chain :as chain]
             [claro.data.error :refer [with-error?]]))
 
@@ -60,7 +61,8 @@
 
 (defn- project-value
   [this unresolved-value value key template]
-  (assert-contains! this unresolved-value value key template)
+  (when-not (or (maybe? template) (default? template))
+    (assert-contains! this unresolved-value value key template))
   (pr/project template (get value key)))
 
 (defn- project-aliased-value
